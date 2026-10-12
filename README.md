@@ -14,18 +14,22 @@ In terminal 3, from the workspace root:
 
 ```bash
 source setup_local.sh
-ros2 launch sledgehammer planner.launch.py env:=sim goal_color:=4
+ros2 launch sledgehammer planner.launch.py env:=sim
 ```
+
+The planner and interactive console share this terminal, including over SSH/tmux.
+**0–5** or **r/o/g/y/b/p** selects red/orange/green/yellow/blue/pink live for both
+planner and tracker. **R** resets the current target's trial. The initial target
+is blue (`goal_color:=4`); use the same initial value in the tracker launch.
 
 **RB** enters nominal stand and disarms; **A** arms from stand once the planner
-is available. Set the same `goal_color:=0..5` in the tracker and planner launches:
-red, orange, green, yellow, blue or pink.
+is available. **q** or **Ctrl-C** closes the console and stops the planner.
+Planner logs go to the ROS launch log directory while the console is visible.
 
-The optional console runs directly too:
-
-```bash
-ros2 run sledgehammer repose_console.py
-```
+Onboard: source `setup.sh onboard`, then use `env:=real`; targets are still entered
+in the same SSH/tmux pane. Without a TTY, the launch starts only the planner.
+Set `console:=false` to explicitly disable the console. A separate console remains
+available as `ros2 run sledgehammer repose_console.py`.
 
 The C++ tracker exits if this planner stops publishing status for one second;
 its ROS launch then stops the encoder and bridge. The planner idles when

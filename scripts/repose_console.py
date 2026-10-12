@@ -15,12 +15,15 @@ from __future__ import annotations
 import argparse
 import os
 import select
+import signal
 import sys
 import termios
 import tty
 
 import rclpy
+from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
+from rclpy.utilities import remove_ros_args
 from rclpy.qos import QoSProfile, ReliabilityPolicy
 from std_msgs.msg import Int32
 
@@ -171,47 +174,62 @@ class Console(Node):
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--color", type=int, default=4, help="initial target (0-5)")
+    ap.add_argument("--color", type=int, choices=range(6), default=4, help="initial target (0-5)")
     ap.add_argument("--goal-topic", default="/vibe/sonic/goal_color")
     ap.add_argument("--planner-topic", default="/vibe/planner/status")
     ap.add_argument("--controller-topic", default="/vibe/controller/status")
-    args = ap.parse_args()
+    ap.add_argument("--tty", help="terminal device supplied by the ROS launch")
+    args = ap.parse_args(remove_ros_args()[1:])
 
     rclpy.init()
     node = Console(args)
-    fd = sys.stdin.fileno()
+    fd = os.open(args.tty, os.O_RDWR | os.O_NOCTTY) if args.tty else sys.stdin.fileno()
+
+    def write(text):
+        if args.tty:
+            os.write(fd, text.encode())
+        else:
+            print(text, end="", flush=True)
+
+    def stop(signum, frame):
+        raise KeyboardInterrupt
+
+    signal.signal(signal.SIGTERM, stop)
     interactive = os.isatty(fd)
     saved = termios.tcgetattr(fd) if interactive else None
-    if interactive:
-        tty.setcbreak(fd)
-    print(f"{CSI}?25l", end="")           # hide the cursor
-    height = 0
     try:
+        if interactive:
+            tty.setcbreak(fd)
+            write(f"{CSI}?1049h{CSI}?25l")  # alternate screen, hide cursor
         while rclpy.ok():
             rclpy.spin_once(node, timeout_sec=0.1)
             if interactive and select.select([fd], [], [], 0)[0]:
-                key = sys.stdin.read(1)
-                if key in ("q", "\x03"):
+                key = os.read(fd, 1).decode(errors="ignore")
+                if key in ("", "q", "\x03"):
                     break
                 if key.isdigit() and 0 <= int(key) < 6:
                     node.set_color(int(key))
                 elif key == "R":
                     node.set_color(node.selected)   # same colour = next episode
-                elif key.lower() in KEYS:
+                elif key and key.lower() in KEYS:
                     node.set_color(KEYS.index(key.lower()))
             frame = node.render()
-            if height:
-                print(f"{CSI}{height}A", end="")
-            print("\n".join(f"{CSI}2K{ln}" for ln in frame.split("\n")))
-            height = frame.count("\n") + 1
-    except KeyboardInterrupt:
+            prefix = f"{CSI}H" if interactive else ""
+            write(prefix + "\n".join(f"{CSI}2K{ln}" for ln in frame.split("\n"))
+                  + f"{CSI}J\n")
+    except (KeyboardInterrupt, ExternalShutdownException):
         pass
     finally:
-        print(f"{CSI}?25h", end="", flush=True)
         if interactive:
-            termios.tcsetattr(fd, termios.TCSADRAIN, saved)
+            try:
+                write(f"{CSI}?25h{CSI}?1049l")
+            finally:
+                termios.tcsetattr(fd, termios.TCSADRAIN, saved)
+        if args.tty:
+            os.close(fd)
         node.destroy_node()
-        rclpy.shutdown()
+        if rclpy.ok():
+            rclpy.shutdown()
 
 
 if __name__ == "__main__":
