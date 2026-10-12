@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>sledgehammer</name>
+  <version>0.1.0</version>
+  <description>Frozen ViBe Repose V9.3 cube-reorientation planner</description>
+  <maintainer email="lokesha1b2c3@gmail.com">loki</maintainer>
+  <license>MIT</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>cpp_control</depend>
+  <depend>rclcpp</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>unitree_hg</depend>
+  <depend>vision_encoders</depend>
+  <depend>OpenCV</depend>
+  <depend>yaml-cpp</depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <exec_depend>rosbag2_py</exec_depend>
+  <exec_depend>rosidl_runtime_py</exec_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>
