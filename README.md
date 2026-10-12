@@ -5,29 +5,32 @@ An optional demo alongside tracker deployment in [vibe_ws](https://github.com/dr
 
 ## usage
 
-Build through [vibe_ws](https://github.com/drcl-deploy/vibe_ws#install), then run
-from its workspace root in three terminals:
+Build through [vibe_ws](https://github.com/drcl-deploy/vibe_ws#install).
+Start the simulator executable and cpp_control tracker in their own terminals;
+the workspace [usage commands](https://github.com/drcl-deploy/vibe_ws#usage)
+show their exact model paths and V9.3 parameters.
+
+In terminal 3, from the workspace root:
 
 ```bash
-./run.sh sim repose-v9.3
-./run.sh tracker repose-v9.3 --with-planner
-./run.sh planner repose-v9.3
+source setup_local.sh
+ros2 launch sledgehammer planner.launch.py env:=sim goal_color:=4
 ```
 
-Use your imported experiment name in place of `repose-v9.3` for another export.
-**RB** enters nominal stand and disarms; **A** arms the planner from stand.
-`--goal-color 0..5` selects red, orange, green, yellow, blue or pink; set the same
-value in both tracker and planner terminals.
+**RB** enters nominal stand and disarms; **A** arms from stand once the planner
+is available. Set the same `goal_color:=0..5` in the tracker and planner launches:
+red, orange, green, yellow, blue or pink.
 
-To launch just this package after sourcing the workspace:
+The optional console runs directly too:
 
 ```bash
-ros2 launch sledgehammer planner.launch.py env:=sim goal_color:=4
 ros2 run sledgehammer repose_console.py
 ```
 
-The workspace's supervised tracker wrapper stops its launch if this planner
-disappears. The planner idles when controller status or low-state becomes stale.
+The C++ tracker exits if this planner stops publishing status for one second;
+its ROS launch then stops the encoder and bridge. The planner idles when
+controller status or low-state becomes stale. Restart the tracker launch after
+restarting the planner.
 
 ## data
 
