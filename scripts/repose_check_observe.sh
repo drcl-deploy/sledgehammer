@@ -38,8 +38,8 @@ done
 
 script_path="$(readlink -f -- "${BASH_SOURCE[0]}")"
 script_dir="$(cd -- "$(dirname -- "${script_path}")" && pwd)"
-cpp_control_root="$(cd -- "${script_dir}/../../.." && pwd)"
-repository_root="$(cd -- "${cpp_control_root}/../../.." && pwd)"
+: "${VIBE_WORKSPACE_ROOT:?Source setup_local.sh or setup.sh first}"
+repository_root="${VIBE_WORKSPACE_ROOT}"
 workspace_setup="${repository_root}/cyclonedds_ws/install/setup.bash"
 
 if [[ ! -f "${workspace_setup}" ]]; then

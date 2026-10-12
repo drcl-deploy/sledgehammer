@@ -3,8 +3,8 @@ set -euo pipefail
 
 # Runs in the isolated offboard domain prepared by repose_stream_observe.sh.
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-cpp_control_root="$(cd -- "${script_dir}/../../.." && pwd)"
-repository_root="$(cd -- "${cpp_control_root}/../../.." && pwd)"
+: "${VIBE_WORKSPACE_ROOT:?Source setup_local.sh or setup.sh first}"
+repository_root="${VIBE_WORKSPACE_ROOT}"
 bag_root="${REPOSE_OBSERVE_BAG_DIR:-${repository_root}/bags/repose_observe}"
 mkdir -p "${bag_root}"
 

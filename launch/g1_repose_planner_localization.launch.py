@@ -10,7 +10,7 @@ Onboard:
         artifact:=<run>/<export> env:=real
 
 Offboard (live viewer plus a continuous, replayable bag):
-    ros2 run cpp_control repose_check_observe.sh record
+    ros2 run sledgehammer repose_check_observe.sh record
 """
 
 import os

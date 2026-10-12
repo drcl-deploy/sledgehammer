@@ -2,7 +2,7 @@ r"""Closed-loop Repose: the shared Vibe runtime, plus the planner that drives it
 
     ros2 launch cpp_control g1_repose_planner.launch.py \\
         artifact:=<run>/<export> [env:=sim|real]
-    ros2 run cpp_control repose_console.py        # pick the target colour, live
+    ros2 run sledgehammer repose_console.py        # pick the target colour, live
 
 This is a task wrapper like g1_vibe_repose.launch.py, not a layer on top of it:
 both include g1_vibe_sonic.launch.py, so the bridge, the encoder and the

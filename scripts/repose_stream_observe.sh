@@ -10,7 +10,7 @@ Add `record` to save clicked RGB-D snapshots and their labels as a rosbag.
 The onboard side must run g1_repose_planner_calibration.launch.py.
 
 Environment:
-  REPOSE_OBSERVE_BAG_DIR   bag root (default: ~/unitree_ros2/bags/repose_observe)
+  REPOSE_OBSERVE_BAG_DIR   bag root (default: $VIBE_WORKSPACE_ROOT/bags/repose_observe)
   VIBE_BRIDGE_ADDRESS   onboard bridge host
 EOF
 }
@@ -61,8 +61,8 @@ if ! [[ "${negative_samples}" =~ ^[1-9][0-9]*$ ]]; then
 fi
 
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-cpp_control_root="$(cd -- "${script_dir}/../../.." && pwd)"
-repository_root="$(cd -- "${cpp_control_root}/../../.." && pwd)"
+: "${VIBE_WORKSPACE_ROOT:?Source setup_local.sh or setup.sh first}"
+repository_root="${VIBE_WORKSPACE_ROOT}"
 workspace_setup="${repository_root}/cyclonedds_ws/install/setup.bash"
 
 if [[ ! -f /opt/ros/humble/setup.bash ]]; then

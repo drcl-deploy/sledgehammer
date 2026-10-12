@@ -7,7 +7,7 @@ Usage: repose_replay_observe.sh [BAG_DIRECTORY]
 
 Opens a synchronized, read-only The planner RGB-D calibration viewer. If
 BAG_DIRECTORY is omitted, the newest completed bag under
-$REPOSE_OBSERVE_BAG_DIR (default: ~/unitree_ros2/bags/repose_observe) is opened.
+$REPOSE_OBSERVE_BAG_DIR (default: $VIBE_WORKSPACE_ROOT/bags/repose_observe) is opened.
 The bag's .db3 or .mcap file may also be passed directly.
 EOF
 }
@@ -22,8 +22,8 @@ if (($# == 1)) && [[ "$1" == "-h" || "$1" == "--help" ]]; then
 fi
 
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-cpp_control_root="$(cd -- "${script_dir}/../../.." && pwd)"
-repository_root="$(cd -- "${cpp_control_root}/../../.." && pwd)"
+: "${VIBE_WORKSPACE_ROOT:?Source setup_local.sh or setup.sh first}"
+repository_root="${VIBE_WORKSPACE_ROOT}"
 workspace_setup="${repository_root}/cyclonedds_ws/install/setup.bash"
 
 ros_setup=""

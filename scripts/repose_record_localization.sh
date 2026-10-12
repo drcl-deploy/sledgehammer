@@ -5,8 +5,8 @@ set -euo pipefail
 # this captures every paired live read and needs no labels or button presses.
 script_path="$(readlink -f -- "${BASH_SOURCE[0]}")"
 script_dir="$(cd -- "$(dirname -- "${script_path}")" && pwd)"
-cpp_control_root="$(cd -- "${script_dir}/../../.." && pwd)"
-repository_root="$(cd -- "${cpp_control_root}/../../.." && pwd)"
+: "${VIBE_WORKSPACE_ROOT:?Source setup_local.sh or setup.sh first}"
+repository_root="${VIBE_WORKSPACE_ROOT}"
 bag_root="${REPOSE_LOCALIZATION_BAG_DIR:-${repository_root}/bags/repose_localization}"
 mkdir -p "${bag_root}"
 

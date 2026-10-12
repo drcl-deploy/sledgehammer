@@ -11,7 +11,7 @@ Sim/hardware:
         artifact:=<run>/<export> [env:=sim|real]
 
 Offboard:
-    bash ~/unitree_ros2/cyclonedds_ws/src/cpp_control/scripts/planners/repose/repose_stream_observe.sh \
+    ros2 run sledgehammer repose_stream_observe.sh \
         [record]
 """
 
