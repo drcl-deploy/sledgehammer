@@ -22,32 +22,14 @@ if (($#)) && [[ "$1" == "-h" || "$1" == "--help" ]]; then
 fi
 
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-cpp_control_root="$(cd -- "${script_dir}/../../.." && pwd)"
-repository_root="$(cd -- "${cpp_control_root}/../../.." && pwd)"
-workspace_setup="${repository_root}/cyclonedds_ws/install/setup.bash"
-
-ros_setup=""
-if [[ -n "${ROS_DISTRO:-}" && -f "/opt/ros/${ROS_DISTRO}/setup.bash" ]]; then
-  ros_setup="/opt/ros/${ROS_DISTRO}/setup.bash"
-elif [[ -f /opt/ros/humble/setup.bash ]]; then
-  ros_setup=/opt/ros/humble/setup.bash
-elif [[ -f /opt/ros/foxy/setup.bash ]]; then
-  ros_setup=/opt/ros/foxy/setup.bash
-fi
-if [[ -z "${ros_setup}" ]]; then
-  echo "run_console: no supported ROS setup found under /opt/ros" >&2
+if [[ -n "${VIBE_WORKSPACE_ROOT:-}" ]]; then
+  set +u
+  source "${VIBE_WORKSPACE_ROOT}/cyclonedds_ws/install/setup.bash"
+  set -u
+elif [[ -z "${AMENT_PREFIX_PATH:-}" ]]; then
+  echo 'Source setup_local.sh or setup.sh before starting the console.' >&2
   exit 1
 fi
-if [[ ! -f "${workspace_setup}" ]]; then
-  echo "run_console: workspace is not built: ${workspace_setup}" >&2
-  exit 1
-fi
-
-# ROS-generated setup files are not nounset-safe.
-set +u
-source "${ros_setup}"
-source "${workspace_setup}"
-set -u
 
 # No domain override here on purpose: the console must sit where the controller
 # is, which is whatever the sourced experiment setup selected.

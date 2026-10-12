@@ -131,6 +131,7 @@ class ReposeNode : public rclcpp::Node {
         [this](msg::ControllerStatus::SharedPtr m) {
           controller_ = *m;
           controller_seen_ = true;
+          last_controller_ = this->now();
           adopt_nominal_stand(m->default_joint_pos);
         });
     lowstate_sub_ = this->create_subscription<unitree_hg::msg::LowState>(
@@ -490,11 +491,11 @@ class ReposeNode : public rclcpp::Node {
     if (state_fresh) observe();
 
     // ── GUARD ──────────────────────────────────────────────
-    if (!controller_seen_ || !controller_.accepting) {
+    if (!controller_seen_ || !fresh(last_controller_) || !controller_.accepting) {
       if (armed_)
         RCLCPP_INFO(
             this->get_logger(),
-            "repose planner: controller left POLICY — idle, still observing");
+            "repose planner: controller disarmed or stale — idle, still observing");
       armed_ = false;
       in_enter_ =
           false;  // a ramp is only valid against the yaw it was frozen at
@@ -1107,6 +1108,7 @@ class ReposeNode : public rclcpp::Node {
   float omega_cam_ = 0.f;  ///< rad/s; the quiescence gate reads this
   rclcpp::Time last_state_{0, 0, RCL_ROS_TIME};
   msg::ControllerStatus controller_;
+  rclcpp::Time last_controller_{0, 0, RCL_ROS_TIME};
   bool controller_seen_ = false;
 
   // camera thread

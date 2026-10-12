@@ -3,25 +3,59 @@
 The frozen Repose V9.3 cube-reorientation planner for [ViBe](https://github.com/lok-i/vibe).
 An optional demo alongside tracker deployment in [vibe_ws](https://github.com/drcl-deploy/vibe_ws).
 
-## status
+## usage
 
-Initial repository scaffold. The planner still runs from `cpp_control`;
-extraction into this repository is pending.
+Build through [vibe_ws](https://github.com/drcl-deploy/vibe_ws#install), then run
+from its workspace root in three terminals:
 
-For the current two-terminal simulator demo and gamepad controls, see
-[vibe_ws usage](https://github.com/drcl-deploy/vibe_ws#usage).
+```bash
+./run.sh sim repose-v9.3
+./run.sh tracker repose-v9.3 --with-planner
+./run.sh planner repose-v9.3
+```
 
-## scope
+Use your imported experiment name in place of `repose-v9.3` for another export.
+**RB** enters nominal stand and disarms; **A** arms the planner from stand.
+`--goal-color 0..5` selects red, orange, green, yellow, blue or pink; set the same
+value in both tracker and planner terminals.
 
-This repository will contain the planner, its configurations, and the frozen
-data needed to reproduce the V9.3 demo:
+To launch just this package after sourcing the workspace:
 
-- `sys1_clips.npz` and `sys1_library.npz`
-- required motion frames and the approach walking motion
+```bash
+ros2 launch sledgehammer planner.launch.py env:=sim goal_color:=4
+ros2 run sledgehammer repose_console.py
+```
 
-Tracker inference and robot control stay in
-[cpp_control](https://github.com/drcl-deploy/cpp_control).
-Exported policy and encoder models belong in `vibe_ws/artifacts/`.
+The workspace's supervised tracker wrapper stops its launch if this planner
+disappears. The planner idles when controller status or low-state becomes stale.
 
-The planner and data have not been copied here yet. Extraction and regression
-gates are tracked in the [workspace migration plan](https://github.com/drcl-deploy/vibe_ws/blob/main/docs/migration.md#remaining-phases).
+## data
+
+| file | purpose |
+|---|---|
+| `data/sys1_clips.npz` | clip table |
+| `data/sys1_library.npz` | frozen source library |
+| `data/sys1_bundle.npz` | selected motion frames, including contact commands |
+| `data/sys1_walk/.../motion.npz` | approach and disarmed walking |
+
+All four files ship in this repository and install with the ROS package.
+[data.lock.json](data.lock.json) records hashes and provenance. V9.3 reads the
+baked frames without a training checkout. See [data notes](data/README.md) for
+the verified array equality and the sidecars required when rebaking.
+
+Policy and encoder ONNX belong in the workspace's ignored `artifacts/`.
+Tracker inference, robot control and the existing ROS message types remain in
+[cpp_control](https://github.com/drcl-deploy/cpp_control). Topics stay
+`/tracker/reference`, `/vibe/controller/status`, `/vibe/planner/status`, `/lowstate`
+and `/vibe/sonic/goal_color`.
+
+## test
+
+```bash
+colcon test --packages-select sledgehammer
+colcon test-result --verbose
+```
+
+Nine package tests cover historical presets, V9.3 planning with shipped data,
+and voice-key parsing. The workspace adds isolated disconnect checks and the
+operator regression. Joystick and hardware acceptance remain pending.
