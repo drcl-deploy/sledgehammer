@@ -1,0 +1,10 @@
+# Local build and development output. Frozen planner data will be versioned.
+/build/
+/install/
+/log/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.cache/
+.vscode/
