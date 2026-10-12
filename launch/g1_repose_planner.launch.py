@@ -50,7 +50,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'planner_config',
             default_value=[os.path.join(pkg, 'config', 'repose_planner', 'g1_'),
-                           LaunchConfiguration('env'), '.yaml']),
+                           LaunchConfiguration('env'), '_v9_3.yaml']),
         DeclareLaunchArgument('goal_color', default_value='4',
                               description='0 red 1 orange 2 green 3 yellow 4 blue 5 pink; '
                                           'drives the policy one-hot AND the planner ladder'),
@@ -81,7 +81,7 @@ def generate_launch_description():
             description='left-stick forward positioning while RB stand is active'),
         DeclareLaunchArgument(
             'stand_walk_motion',
-            default_value='data/sys1_walk/walk_forward_amateur_001__A001/motion.npz'),
+            default_value=os.path.join(pkg, 'data/sys1_walk/walk_forward_amateur_001__A001/motion.npz')),
         DeclareLaunchArgument('stand_walk_distance_m', default_value='1.0'),
         DeclareLaunchArgument('stand_walk_lead_s', default_value='0.35'),
         DeclareLaunchArgument('stand_walk_exit_s', default_value='0.45'),

@@ -7,8 +7,8 @@ stale_s: 1.0
 
 clips: data/sys1_clips.npz
 frames:
-  source: retargeted
-  path: data/retargeted_motions
+  source: baked
+  path: data/sys1_bundle.npz
   library: data/sys1_library.npz
 
 camera: {host: 127.0.0.1, port: 5555}

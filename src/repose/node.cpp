@@ -52,7 +52,7 @@
 #include <vector>
 #include <vision_encoders/frame_wire.hpp>
 
-#include "common/asset_path.hpp"
+#include "sledgehammer/repose/data_path.hpp"
 #include "common/g1/joint_orders.hpp"
 #include "common/g1/motion.hpp"
 #include "common/math_utils.hpp"
@@ -94,6 +94,8 @@ class ReposeNode : public rclcpp::Node {
     const auto config_path = this->declare_parameter("config_path", "");
     if (config_path.empty())
       throw std::runtime_error("repose planner: config_path is required");
+    data_root_ = this->declare_parameter(
+        "data_root", ament_index_cpp::get_package_share_directory("sledgehammer"));
     load_config(config_path);
     approach_only_ = this->declare_parameter("approach_only", false);
     if (approach_only_ && !cfg_.approach_enabled)
@@ -185,13 +187,18 @@ class ReposeNode : public rclcpp::Node {
  private:
   // ── Config ─────────────────────────────────────────────────────
 
+  std::string asset_path(const std::string& name) const {
+    return sledgehammer::data_path(name, data_root_);
+  }
+
+  std::string data_root_;
+
   void load_config(const std::string& path) {
     const YAML::Node root = YAML::LoadFile(path);
     version_ = root["version"] ? root["version"].as<std::string>() : "v7";
     cfg_ = Cfg::from_yaml(root);
 
-    // Every path below is relative to $VIBE_ASSET_ROOT unless it is absolute
-    // (common/asset_path.hpp), so this yaml is one string on both boxes.
+    // Relative paths belong to this package; absolute overrides remain supported.
     table_ = ClipTable::load(asset_path(root["clips"].as<std::string>()));
     const auto frames = root["frames"];
     const auto source = frames["source"].as<std::string>();

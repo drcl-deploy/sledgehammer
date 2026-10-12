@@ -37,7 +37,7 @@
 #include <unitree_hg/msg/low_state.hpp>
 #include <vision_encoders/frame_wire.hpp>
 
-#include "common/asset_path.hpp"
+#include "sledgehammer/repose/data_path.hpp"
 #include "common/gamepad.hpp"
 #include "common/g1/joint_orders.hpp"
 #include "sledgehammer/repose/cfg.hpp"
@@ -72,6 +72,8 @@ class ReposeObserveNode final : public rclcpp::Node {
         this->declare_parameter("config_path", "");
     if (config_path.empty())
       throw std::runtime_error("the planner observe: config_path is required");
+    data_root_ = this->declare_parameter(
+        "data_root", ament_index_cpp::get_package_share_directory("sledgehammer"));
     load_config(config_path);
 
     const std::string camera_host =
@@ -130,6 +132,12 @@ class ReposeObserveNode final : public rclcpp::Node {
   }
 
  private:
+  std::string asset_path(const std::string& name) const {
+    return sledgehammer::data_path(name, data_root_);
+  }
+
+  std::string data_root_;
+
   void load_config(const std::string& path) {
     const YAML::Node root = YAML::LoadFile(path);
     cfg_ = Cfg::from_yaml(root);

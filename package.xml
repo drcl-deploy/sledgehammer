@@ -6,6 +6,7 @@
   <maintainer email="lokesha1b2c3@gmail.com">loki</maintainer>
   <license>MIT</license>
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>ament_index_cpp</depend>
   <depend>cpp_control</depend>
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>

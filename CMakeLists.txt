@@ -4,6 +4,7 @@ project(sledgehammer)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(ament_cmake REQUIRED)
+find_package(ament_index_cpp REQUIRED)
 find_package(cpp_control REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
@@ -29,12 +30,13 @@ add_executable(g1_repose_planner_observe_node src/repose/observe_node.cpp)
 foreach(target g1_repose_planner_node g1_repose_planner_observe_node)
   target_link_libraries(${target} sledgehammer_core)
   target_include_directories(${target} PRIVATE ${vision_encoders_INCLUDE_DIRS})
-  ament_target_dependencies(${target} rclcpp std_msgs sensor_msgs
+  ament_target_dependencies(${target} ament_index_cpp rclcpp std_msgs sensor_msgs
     unitree_hg vision_encoders cpp_control)
 endforeach()
 
 install(TARGETS repose_planner_selftest g1_repose_planner_node
   g1_repose_planner_observe_node DESTINATION lib/${PROJECT_NAME})
+install(FILES data.lock.json DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY launch config DESTINATION share/${PROJECT_NAME})
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/data")
   install(DIRECTORY data DESTINATION share/${PROJECT_NAME})
@@ -50,6 +52,11 @@ if(BUILD_TESTING)
     add_test(NAME repose_planner_${version}_selftest COMMAND repose_planner_selftest
       --config ${CMAKE_CURRENT_SOURCE_DIR}/config/repose_planner/g1_sim_${version}.yaml)
   endforeach()
+  add_test(NAME repose_frozen_data_selftest COMMAND repose_planner_selftest
+    --config ${CMAKE_CURRENT_SOURCE_DIR}/config/repose_planner/g1_sim_v9_3.yaml
+    --table ${CMAKE_CURRENT_SOURCE_DIR}/data/sys1_clips.npz
+    --frames ${CMAKE_CURRENT_SOURCE_DIR}/data/sys1_bundle.npz
+    --approach ${CMAKE_CURRENT_SOURCE_DIR}/data/sys1_walk/walk_forward_amateur_001__A001/motion.npz)
   add_test(NAME repose_voice_keys_selftest COMMAND /usr/bin/env python3
     ${CMAKE_CURRENT_SOURCE_DIR}/scripts/repose_voice_keys.py --self-test)
 endif()

@@ -1,0 +1,489 @@
+{
+  "schema": "sledgehammer.data.v1",
+  "planner": "v9.3",
+  "source_cpp_control": "934878e3c855a7a9184c36f73f7a82c79559ddfb",
+  "source_dataset": "e635ed670162c8b4cc91dd6247d4f3b47368ab3c",
+  "baked_arrays": {
+    "rows": [
+      10980,
+      83
+    ],
+    "stand": [
+      83
+    ],
+    "span_off": [
+      78
+    ],
+    "span_len": [
+      78
+    ]
+  },
+  "files": {
+    "data/sys1_bundle.npz": {
+      "bytes": 3647044,
+      "sha256": "db95402b5df850739168f8e4ccca3cf8c65aa7bffbc1a169917619cd5afdcda4"
+    },
+    "data/sys1_clips.npz": {
+      "bytes": 12182,
+      "sha256": "c6a0e3f26f45f44f628639b9c043b81cb78f2e83bf8184573f72a053e85d4640"
+    },
+    "data/sys1_library.npz": {
+      "bytes": 2901665,
+      "sha256": "5d242efe1c298f75ce974827353aa3d4d5e64ecce89dc14d93d6c5ddab2e0fa6"
+    },
+    "data/sys1_walk/walk_forward_amateur_001__A001/motion.npz": {
+      "bytes": 4320262,
+      "sha256": "5869ef2903b06590a9bd95a47674d30d0df68277dcca81d4afa12b4fdc2db018"
+    }
+  },
+  "source_companions": {
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample1/contact_matrix.npz": {
+      "bytes": 197496,
+      "sha256": "3f8806ed0280b2596e46f6ddac2d65b8a438f205a1490b6575b357ea3f4de4de"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample1/object_motion.npz": {
+      "bytes": 10868,
+      "sha256": "bf4f10207f85dc7c2c7ca249c934e5c45796d0bd7f088b4ae0df714bcf91c37c"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample10/contact_matrix.npz": {
+      "bytes": 197496,
+      "sha256": "17d3d82c5bc1afb8fc2680920e865b8dd4ed23c0e724f35e832db708a4b05735"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample10/object_motion.npz": {
+      "bytes": 10868,
+      "sha256": "75b7574df0b2d2887b118955c305c833b4000b448ee6f40cd3a8a552e8b016b9"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample11/contact_matrix.npz": {
+      "bytes": 159608,
+      "sha256": "9a4e6a633405548d5b8e73b96bd115f27e5e3c56680c8a8f10af689f667ed13c"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample11/object_motion.npz": {
+      "bytes": 8944,
+      "sha256": "26dd569377ac436ffd6dcbd5dcc373b8e812710384e2299f594eb297451b554c"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample13/contact_matrix.npz": {
+      "bytes": 169848,
+      "sha256": "e7463e043d5331ef9f3757a43faec43576b1d9fe2e94fc02b4362eca8f1a4171"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample13/object_motion.npz": {
+      "bytes": 9464,
+      "sha256": "c8fa60a929f4ec661be4bbd4378a355a34b8b8481e265250d0cdb4310f6961db"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample14/contact_matrix.npz": {
+      "bytes": 162680,
+      "sha256": "19c56cfc052f45c6552c629716fbd8b5f88bd25f591503a8dbf56fa465630134"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample14/object_motion.npz": {
+      "bytes": 9100,
+      "sha256": "f591841727f71f25cc06ef0aed1009433e37c6d4dd98307de979d9c905c28b2c"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample15/contact_matrix.npz": {
+      "bytes": 178040,
+      "sha256": "fc9d780ea28cf6952da429e84e1ece276d14d4c803d4df610fc62b11c0d9f988"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample15/object_motion.npz": {
+      "bytes": 9880,
+      "sha256": "8233e6e040242cdf75e5f205c2d0cd7f61b083f5d3a6ccb34d370a01dc6c03c4"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample16/contact_matrix.npz": {
+      "bytes": 408440,
+      "sha256": "9c18768679cf249d8dca4fb7b43474e6c8d523ac58c13f286c782a8bf61d4c86"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample16/object_motion.npz": {
+      "bytes": 21580,
+      "sha256": "0de874e2adc7fa22737103220f1234033956a7cc2fb4a72728d73389cb0ea0d6"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample17/contact_matrix.npz": {
+      "bytes": 123768,
+      "sha256": "13ffad120cfef505685c5930fb449e41e65c1d88fbb0b7c818bee82cfbea88df"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample17/object_motion.npz": {
+      "bytes": 7124,
+      "sha256": "0d769ed2e7a5b2db145f7475c06d226ba24c7e677e967c84c7c8ff8c583aef15"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample18/contact_matrix.npz": {
+      "bytes": 185208,
+      "sha256": "0e37241c268268101f5f9cd717b69798353d3c53142325554dbfed1016b8275c"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample18/object_motion.npz": {
+      "bytes": 10244,
+      "sha256": "36cbccd01c758c328e7215673ee4bfba2768f67e3cadf7512229ec73ce518b0a"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample19/contact_matrix.npz": {
+      "bytes": 394104,
+      "sha256": "93ccaf28d7e7d6e3e8af9e88639cf8556611a04573682441df22a8635a206b77"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample19/object_motion.npz": {
+      "bytes": 20852,
+      "sha256": "cb72cf0d7b7abd5721bc0ba79336862b81e858744d1fade5e87a03e97901a8d0"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample2/contact_matrix.npz": {
+      "bytes": 166776,
+      "sha256": "e6b64baa2532784760ed221459de72410a93db9360b1dde8b97eba0a3e1030c9"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample2/object_motion.npz": {
+      "bytes": 9308,
+      "sha256": "ff2083109efe7cbc9fa504b39d0d404563b1ec3695c6eb1b86a9d1fd3db77e9d"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample20/contact_matrix.npz": {
+      "bytes": 605048,
+      "sha256": "971bf7e00bb2bce2e41a5830913d6cad8a130fe4bebb13514bb132a9e070efef"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample20/object_motion.npz": {
+      "bytes": 31564,
+      "sha256": "7a60b792f228222b9d36c3cb4cb4a11c84de979b8e8284ab7e7ca69505a405bb"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample22/contact_matrix.npz": {
+      "bytes": 512888,
+      "sha256": "ad48f36d0bd0580b5793b0f9f811c6e45a05abeaf13f4bf3f781172e45538de6"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample22/object_motion.npz": {
+      "bytes": 26884,
+      "sha256": "7be5fc45df184e514a11d35893ccba9479226f5c5a680f14d331edf666091aa0"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample23/contact_matrix.npz": {
+      "bytes": 569208,
+      "sha256": "c4996f8778d21625834cab26acb0a758b92f49e677b986245cb166c222d364cb"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample23/object_motion.npz": {
+      "bytes": 29744,
+      "sha256": "efbe7931d0c7953522c99a701639c69404185f423963a373aa2445d3e6a34339"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample24/contact_matrix.npz": {
+      "bytes": 638840,
+      "sha256": "956e1f4520fb2404edabd64cd5661814309919a7abdacab48eea9691dd0dc27a"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample24/object_motion.npz": {
+      "bytes": 33280,
+      "sha256": "c879726cbdc795e70a322613fdef4b9f18bb17ca2294c099b04065619bc07c97"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample4/contact_matrix.npz": {
+      "bytes": 258936,
+      "sha256": "5760fbfb740b5bbfe645ce0679c44207bd1481466d76b4784aab022540d01547"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample4/object_motion.npz": {
+      "bytes": 13988,
+      "sha256": "11b7255add68a6aa89fbe5031ae2c9bf4fbb93642cfec7e37ef5f068bceb18ab"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample5/contact_matrix.npz": {
+      "bytes": 182136,
+      "sha256": "d4def9c63dee878e78386edd732ec0af3e74bc59e53df2ad6102e6f89b89efb3"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample5/object_motion.npz": {
+      "bytes": 10088,
+      "sha256": "24265d4f900363db5eac1c6ec3ce4945b8ccfa5fb70366967cda05ce498a68fb"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample6/contact_matrix.npz": {
+      "bytes": 489336,
+      "sha256": "4d939975818214b93a46c3021ed0586212d66d5a0bdede71016e75b73b78a52e"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample6/object_motion.npz": {
+      "bytes": 25688,
+      "sha256": "a11f500446095e7c5c3f1d868374d37acd9cf43096e41fba14b1f801dd8c2ee2"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample7/contact_matrix.npz": {
+      "bytes": 236408,
+      "sha256": "e787ba8ab79182603c32c6ed5edf9d16ee8067279b332ab847a41a2747bc2ef7"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample7/object_motion.npz": {
+      "bytes": 12844,
+      "sha256": "1055750f91c737ffad3a5928f03b5f7890409395f66570632668184a25c6a127"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample8/contact_matrix.npz": {
+      "bytes": 166776,
+      "sha256": "64338023ae573ec3cf1ccde844ce91ae7bb4dedf7413a537e0399bb553d51435"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_frontflip/sample8/object_motion.npz": {
+      "bytes": 9308,
+      "sha256": "8f23e5af51e4b2f2141d24b3e78a19a047cee09fef8f55db162fa4abddc01cd1"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample1/contact_matrix.npz": {
+      "bytes": 286584,
+      "sha256": "1328c2503d94939132670abf7db35f38a5de5bdca0135f47761b32a5d9c9b83c"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample1/object_motion.npz": {
+      "bytes": 15392,
+      "sha256": "a46d6380d240001bde114b4bc7d3daf3a9e41b7a1795998a579fedc4021f54c2"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample10/contact_matrix.npz": {
+      "bytes": 209784,
+      "sha256": "d39b1689fc7b485c73f5ce7a9f72f16c2e91b8695bfa7864f25a609313c9d980"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample10/object_motion.npz": {
+      "bytes": 11492,
+      "sha256": "537f6ecbe8128ef188f7a9aec3831a95ca34c961fe736838aab7b1fad5cbda62"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample11/contact_matrix.npz": {
+      "bytes": 209784,
+      "sha256": "fe54bd30f60385b09ab9c48304af4117fd4b3f53f96cce9212ff05787977f7b8"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample11/object_motion.npz": {
+      "bytes": 11492,
+      "sha256": "f4bae3130f1659f0eaa652a5bb1b7be8c42ad5b7daa40bf03cb8a9431d86deee"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample12/contact_matrix.npz": {
+      "bytes": 194424,
+      "sha256": "01d79051a1fe3cff7d058bcb30f4c6c79372ff1b283e423130d20b18094a90fb"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample12/object_motion.npz": {
+      "bytes": 10712,
+      "sha256": "d482a81dda87f6bf85ab5ccefd28b6554fa13f80cc87f99528b05f70dc7a0e23"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample13/contact_matrix.npz": {
+      "bytes": 187256,
+      "sha256": "22356b65b33c2299c1ab7fb39a45d4cd0ee3de68873b033a49d7e8cb0cd23f7c"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample13/object_motion.npz": {
+      "bytes": 10348,
+      "sha256": "0e373314f39771a18852f521b19d70f34c6d68f46efdb8deed6fdcdccf1ae679"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample14/contact_matrix.npz": {
+      "bytes": 171896,
+      "sha256": "4efe87784ac169b99ca1bc985d2b21072c73d56cfcfa7cf93c051cc484c6d0c4"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample14/object_motion.npz": {
+      "bytes": 9568,
+      "sha256": "973747138b70275d5a61e28a70dc80e1fcf95e927a9af4acc294f568f26e3d68"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample15/contact_matrix.npz": {
+      "bytes": 148344,
+      "sha256": "d0294e39ff22bf00092f9ef56097c1bd56db26c777b2eb3b1e305e44efc3ee3a"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample15/object_motion.npz": {
+      "bytes": 8372,
+      "sha256": "cb79dd4178cd69b45d578639b4a6645a472ec741c9d76876be30990d5615bcbc"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample16/contact_matrix.npz": {
+      "bytes": 125816,
+      "sha256": "8fcd4422a1c8bea44ca83072995bf0c20d14b882f181cae1df960868f5c41e56"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample16/object_motion.npz": {
+      "bytes": 7228,
+      "sha256": "760d4eb1ec814860f194b738f453092d936cf8a24e8b5f53a90b9c0cee479288"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample17/contact_matrix.npz": {
+      "bytes": 156536,
+      "sha256": "5d0be5487f8c1c6f65648c2ea0f078de2618b8422c78bd724ddf787208e5279b"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample17/object_motion.npz": {
+      "bytes": 8788,
+      "sha256": "e94da42d70fa72f54a7ad012ce617d5143ccf9669062b369f3b717aa71e8d9e6"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample18/contact_matrix.npz": {
+      "bytes": 148344,
+      "sha256": "9fb246b9a366e98b8c035db050359f5f7804708d382560c98306de3ce9b9eeb6"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample18/object_motion.npz": {
+      "bytes": 8372,
+      "sha256": "d0c4b024ad9d091f5a46aca5e874fc724bbbe4f8b2351991a2f23ec9a96afe8b"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample2/contact_matrix.npz": {
+      "bytes": 156536,
+      "sha256": "5f72813fe2594017ffe631b31fc5398aead0f13fe477c65512f3ed31ca3a0003"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample2/object_motion.npz": {
+      "bytes": 8788,
+      "sha256": "c786d4603a037797509f87fd867e9918aaa4c2fc191e06dd0b64c36d76eb0640"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample20/contact_matrix.npz": {
+      "bytes": 171896,
+      "sha256": "4e897f3de9385ed4e6b506d26a177a492985ad7ebe53125c44701e4341fa806c"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample20/object_motion.npz": {
+      "bytes": 9568,
+      "sha256": "c21b9753310645274723a2e8b0beac4f2ec304075486e7526e00013204c6939b"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample21/contact_matrix.npz": {
+      "bytes": 171896,
+      "sha256": "8235f9f06dd7d3734d1a06fb18438379d19e8e0848fe7c229ab35008a367e559"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample21/object_motion.npz": {
+      "bytes": 9568,
+      "sha256": "79cd88526d9c1ba2036bb03d2a1f744e3eafe24623817da5cf92741498aa24ba"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample22/contact_matrix.npz": {
+      "bytes": 148344,
+      "sha256": "4c223b31d840f12a41dcad6c5cb1e348195b782bb153d50334490876da7a2043"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample22/object_motion.npz": {
+      "bytes": 8372,
+      "sha256": "c1dcd99660c6064ee3676400fa03dc58fb754c6c3311664e3bd1d97ae1af0414"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample23/contact_matrix.npz": {
+      "bytes": 117624,
+      "sha256": "62e4a8c6ab916602d5bde8223bba4f12ee2cde12fbc85d72a30fbac83830365a"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample23/object_motion.npz": {
+      "bytes": 6812,
+      "sha256": "7004f61cb307041ac0139623f88b5e43b27ec725401adc3323d57ebdc73af605"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample24/contact_matrix.npz": {
+      "bytes": 110456,
+      "sha256": "64648734fd321b67cc4fd294864fe47de818402dbc23b141d579b87e8f7b7368"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample24/object_motion.npz": {
+      "bytes": 6448,
+      "sha256": "cfa85c535cff9f639cf9185f03f604c745f9e5cd1023a6f7b47adb4fe1985ec5"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample25/contact_matrix.npz": {
+      "bytes": 233336,
+      "sha256": "6143bf707aa389b54f255ba3b4e4f0527467c114cf5509b971c1640cf20af7fd"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample25/object_motion.npz": {
+      "bytes": 12688,
+      "sha256": "956044538268a2da7f0a643d4a099831c0d92e7add725a8b1d7609019553053f"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample29/contact_matrix.npz": {
+      "bytes": 221048,
+      "sha256": "34c53e4eb61b2640b1498c4d72b20bad3048594259ed34e8fccb9764e45cc4f6"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample29/object_motion.npz": {
+      "bytes": 12064,
+      "sha256": "3c2ff5bda6ac04be5aca40c3055c209343c1f39601d2669a70e80f0d5f268548"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample3/contact_matrix.npz": {
+      "bytes": 125816,
+      "sha256": "2101af444f7e19a99c5d9fddc062df7ba45ebf597cc23ae38028bde17fd4b0b0"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample3/object_motion.npz": {
+      "bytes": 7228,
+      "sha256": "f217ed158d65147b7a998caa621c0f9622f1caa64828a00584f2452aa3e866dc"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample30/contact_matrix.npz": {
+      "bytes": 174968,
+      "sha256": "dffa96ce58dc57a5199805c618b117e3366a5b15c1f01e93c35c26fa5a8e74db"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample30/object_motion.npz": {
+      "bytes": 9724,
+      "sha256": "26c1bb1ce8a72d3bd88908a238713e8225fa823db2f25810b1695807e2663a4f"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample32/contact_matrix.npz": {
+      "bytes": 221048,
+      "sha256": "56d78a1a765ac9437696454a1c99a7d7ccedaa17e3e558e6c74f8def687f7e75"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample32/object_motion.npz": {
+      "bytes": 12064,
+      "sha256": "6c1feace172777bbe6588e1ec7c5d306fd4c9556983bc0884aad3d7be0d30a97"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample34/contact_matrix.npz": {
+      "bytes": 323448,
+      "sha256": "07383e457255653c6b911a3dc7345884f0726b98485aef5997d6567a46f5802f"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample34/object_motion.npz": {
+      "bytes": 17264,
+      "sha256": "6170881b3e5d016fe1b18a8e859341244f70c0e892be31ba1fd274c5f5d70d11"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample36/contact_matrix.npz": {
+      "bytes": 169848,
+      "sha256": "654d57717f877b02b4415b236430119500a2fe8b4a16c4dd69321471538327a3"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample36/object_motion.npz": {
+      "bytes": 9464,
+      "sha256": "e59f5fae5dbc7ff434adf05ff3afd1d165331f3f7f04dd6491c9c93d9c03d6a6"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample37/contact_matrix.npz": {
+      "bytes": 246648,
+      "sha256": "0a478d09411e435f195b6dabe2b85236f5a61f29c8983661712250e2ea4d2923"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample37/object_motion.npz": {
+      "bytes": 13364,
+      "sha256": "ed482a46f29959f58a4f8406eec174808be9c1cefc93b0d92e84342fdcbaecfc"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample38/contact_matrix.npz": {
+      "bytes": 185208,
+      "sha256": "401da96cc9ec340aa263673f6e434e41c9d29ef5d7848960fd8bd6b605b1e3f3"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample38/object_motion.npz": {
+      "bytes": 10244,
+      "sha256": "aa55c127ec9cafbe162453310375329ac7782b36d1f3f95cfa8a5ca1cd897fc2"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample4/contact_matrix.npz": {
+      "bytes": 110456,
+      "sha256": "f0ee10c6df79b998ec692dbb06977acfc3b56eab8f1d026345779f41880e2171"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample4/object_motion.npz": {
+      "bytes": 6448,
+      "sha256": "e9dd3d32ea7cb5405094d0d5b394b9500edf20189139468c48a09d16e09dca32"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample43/contact_matrix.npz": {
+      "bytes": 248696,
+      "sha256": "2e675a5549341c8f0370fe78c03804f1fc08704bba53f8906319ebbea3c68ffd"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample43/object_motion.npz": {
+      "bytes": 13468,
+      "sha256": "b360497977c5044f200533e00d18fec1c60aba967e66f0fb6f18a75c4c03671c"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample45/contact_matrix.npz": {
+      "bytes": 310136,
+      "sha256": "4b1030d055f063d574404ec805964c0bcbfb95cf3df0ebdf2f980439b1b744dc"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample45/object_motion.npz": {
+      "bytes": 16588,
+      "sha256": "685a6d9a310f09f491ef4d9ec805cfe60d16992c56ad64b15a5991ea11dcc289"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample47/contact_matrix.npz": {
+      "bytes": 190328,
+      "sha256": "be637ae26e68f7c56c86405f3cdddec741a64c24160d197a90167470986c7332"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample47/object_motion.npz": {
+      "bytes": 10504,
+      "sha256": "224e21b688ed49b9972bcc23dc5808e59219d9475f9159919fdbc4825c68e05c"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample49/contact_matrix.npz": {
+      "bytes": 258936,
+      "sha256": "61a72c529efe499803d433f925e8dbb11b28e1e87ff2f1a74ee9df6828c9cbcd"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample49/object_motion.npz": {
+      "bytes": 13988,
+      "sha256": "0b4e2e5392c88976ac694693ba80871f6835af5470ee43a6614799dc096b9995"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample5/contact_matrix.npz": {
+      "bytes": 156536,
+      "sha256": "153cb84f7ef41a507b488e653d7c28e5e77c4b10b0763f63a758f73f954802fa"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample5/object_motion.npz": {
+      "bytes": 8788,
+      "sha256": "3ba6d60a7100d218ea2cc0e7fb2aa54ea003259633b7fd160586f84dee2df3f3"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample53/contact_matrix.npz": {
+      "bytes": 393080,
+      "sha256": "fdb40f315b912bb06b94e40875e96e35e5744137c94760c8c5c7d846c562d1db"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample53/object_motion.npz": {
+      "bytes": 20800,
+      "sha256": "a0eb2313e3fa8967c9db4dceebf29588a8871bb84db65ccffcfe1a26571736fc"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample6/contact_matrix.npz": {
+      "bytes": 141176,
+      "sha256": "f44717a6b354b97f7a0cb58320523eb12e5c1c44831e6c8f8e34f1cfaf3395e6"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample6/object_motion.npz": {
+      "bytes": 8008,
+      "sha256": "cecdf3984d02b696c19ac6858b613e3b02f38c2b88473a82ee7e9a9266e864f9"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample7/contact_matrix.npz": {
+      "bytes": 141176,
+      "sha256": "59faef2e36926e0737806237a0c1a027a30969bef77fcf57886aeff9b009cd2e"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample7/object_motion.npz": {
+      "bytes": 8008,
+      "sha256": "1d44a993ef347c0d19293a222712ed16471ad3c00d672b776c9d55140cd2ef7b"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample8/contact_matrix.npz": {
+      "bytes": 163704,
+      "sha256": "9eb72a461dadd80bb7dd8a1a401eb22bd2621ee46aeaf81a4322f8a77d76afa6"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample8/object_motion.npz": {
+      "bytes": 9152,
+      "sha256": "8e3ba2b6fe0d2dd01a7836fddfad65cb541e196a4bdf49eb8a0dfd5697700786"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample9/contact_matrix.npz": {
+      "bytes": 132984,
+      "sha256": "e99c205d2761b990fbb0fe5d705314e0f21ac1ac252fc59ede0e33b90e595adf"
+    },
+    "data/retargeted_motions/data/unitree_g1/custom/cube_sideflip/sample9/object_motion.npz": {
+      "bytes": 7592,
+      "sha256": "097c20bc208517f38d17ea82ee9d7f89317ff97e2b179db1ca4db06446f98de0"
+    }
+  }
+}
