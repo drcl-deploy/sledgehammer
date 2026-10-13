@@ -28,9 +28,6 @@
  * Design + the findings that shrank it: docs/planners/repose/planner.md
  */
 
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <unistd.h>
 #include <yaml-cpp/yaml.h>
 
 #include <atomic>
@@ -50,6 +47,7 @@
 #include <thread>
 #include <unitree_hg/msg/low_state.hpp>
 #include <vector>
+#include <vision_encoders/camera_tcp.hpp>
 #include <vision_encoders/frame_wire.hpp>
 
 #include "sledgehammer/repose/data_path.hpp"
@@ -338,43 +336,28 @@ class ReposeNode : public rclcpp::Node {
 
   // ── Camera wire ────────────────────────────────────────────────
 
-  static bool recv_exact(int fd, uint8_t* buf, size_t n) {
-    size_t got = 0;
-    while (got < n) {
-      const ssize_t r = ::recv(fd, buf + got, n - got, 0);
-      if (r <= 0) return false;
-      got += static_cast<size_t>(r);
-    }
-    return true;
-  }
-
   void tcp_loop() {
     std::vector<uint8_t> payload;
     while (running_.load()) {
-      const int fd = ::socket(AF_INET, SOCK_STREAM, 0);
-      sockaddr_in addr{};
-      addr.sin_family = AF_INET;
-      addr.sin_port = htons(camera_port_);
-      inet_pton(AF_INET, camera_ip_.c_str(), &addr.sin_addr);
-      if (fd < 0 ||
-          ::connect(fd, reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) < 0) {
+      const int fd = vision_encoders::camera_tcp::connect(camera_ip_, camera_port_, running_);
+      if (fd < 0) {
+        if (!running_.load()) break;
         RCLCPP_WARN(this->get_logger(),
                     "repose planner: cannot reach %s:%u, retrying",
                     camera_ip_.c_str(), camera_port_);
-        if (fd >= 0) ::close(fd);
-        std::this_thread::sleep_for(std::chrono::seconds(2));
+        vision_encoders::camera_tcp::retry_delay(running_);
         continue;
       }
       RCLCPP_INFO(this->get_logger(), "repose planner: camera %s:%u connected",
                   camera_ip_.c_str(), camera_port_);
       while (running_.load()) {
-        uint32_t len = 0;
-        if (!recv_exact(fd, reinterpret_cast<uint8_t*>(&len), 4)) break;
-        payload.resize(len);
-        if (!recv_exact(fd, payload.data(), len)) break;
+        if (!vision_encoders::camera_tcp::read_frame(fd, payload, running_)) break;
         decode(payload);
       }
       ::close(fd);
+      if (running_.load())
+        RCLCPP_WARN(this->get_logger(),
+                    "repose planner: camera disconnected or frame timed out; reconnecting");
     }
   }
 
