@@ -13,7 +13,7 @@ import argparse
 from collections import OrderedDict
 import time
 
-from cpp_control.msg import CalibrationState, CubeObservation
+from sledgehammer.msg import CalibrationState, CubeObservation
 import cv2
 import numpy as np
 import rclpy

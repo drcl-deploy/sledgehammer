@@ -30,7 +30,7 @@
 #include <std_msgs/msg/u_int64.hpp>
 
 #include <cpp_control/msg/controller_status.hpp>
-#include <cpp_control/msg/cube_observation.hpp>
+#include <sledgehammer/msg/cube_observation.hpp>
 #include <unitree_hg/msg/low_state.hpp>
 #include <vision_encoders/camera_tcp.hpp>
 #include <vision_encoders/frame_wire.hpp>
@@ -92,7 +92,7 @@ class ReposeObserveNode final : public rclcpp::Node {
     labels_pub_ = this->create_publisher<sensor_msgs::msg::Image>(
         this->declare_parameter("labels_topic", "/vibe/planner/observe/labels"),
         image_qos());
-    observation_pub_ = this->create_publisher<msg::CubeObservation>(
+    observation_pub_ = this->create_publisher<sledgehammer::msg::CubeObservation>(
         this->declare_parameter("observation_topic",
                                 "/vibe/planner/observe/observation"),
         image_qos());
@@ -285,7 +285,7 @@ class ReposeObserveNode final : public rclcpp::Node {
       waist = waist_q_;
     }
 
-    msg::CubeObservation observation;
+    sledgehammer::msg::CubeObservation observation;
     observation.header = header;
     observation.sequence = ++sequence_;
     observation.state_ready = state_ready;
@@ -371,7 +371,7 @@ class ReposeObserveNode final : public rclcpp::Node {
   rclcpp::Publisher<sensor_msgs::msg::CompressedImage>::SharedPtr color_pub_;
   rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr depth_pub_, labels_pub_;
   rclcpp::Publisher<sensor_msgs::msg::CameraInfo>::SharedPtr camera_info_pub_;
-  rclcpp::Publisher<msg::CubeObservation>::SharedPtr observation_pub_;
+  rclcpp::Publisher<sledgehammer::msg::CubeObservation>::SharedPtr observation_pub_;
   rclcpp::Publisher<std_msgs::msg::UInt64>::SharedPtr click_pub_;
   rclcpp::Subscription<unitree_hg::msg::LowState>::SharedPtr lowstate_sub_;
   rclcpp::Subscription<msg::ControllerStatus>::SharedPtr controller_sub_;
