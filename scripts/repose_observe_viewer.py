@@ -17,6 +17,7 @@ from cpp_control.msg import CalibrationState, CubeObservation
 import cv2
 import numpy as np
 import rclpy
+from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
 from sensor_msgs.msg import CameraInfo, CompressedImage, Image
@@ -419,7 +420,7 @@ def main():
     try:
         while rclpy.ok() and not node.should_quit:
             rclpy.spin_once(node, timeout_sec=0.1)
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, ExternalShutdownException):
         pass
     finally:
         cv2.destroyAllWindows()

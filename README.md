@@ -5,29 +5,40 @@ An optional demo alongside tracker deployment in [vibe_ws](https://github.com/dr
 
 ## usage
 
-Build through [vibe_ws](https://github.com/drcl-deploy/vibe_ws#install), then run
-from its workspace root in three terminals:
+Build through [vibe_ws](https://github.com/drcl-deploy/vibe_ws#install).
+Start the simulator executable and cpp_control tracker in their own terminals;
+the workspace [usage commands](https://github.com/drcl-deploy/vibe_ws#usage)
+show their exact model paths and V9.3 parameters.
+
+In terminal 3, from the workspace root:
 
 ```bash
-./run.sh sim repose-v9.3
-./run.sh tracker repose-v9.3 --with-planner
-./run.sh planner repose-v9.3
+source setup_local.sh
+ros2 launch sledgehammer planner.launch.py env:=sim
 ```
 
-Use your imported experiment name in place of `repose-v9.3` for another export.
-**RB** enters nominal stand and disarms; **A** arms the planner from stand.
-`--goal-color 0..5` selects red, orange, green, yellow, blue or pink; set the same
-value in both tracker and planner terminals.
+The planner and interactive console share this terminal, including over SSH/tmux.
+**0–5** or **r/o/g/y/b/p** selects red/orange/green/yellow/blue/pink live for both
+planner and tracker. **R** resets the current target's trial. The initial target
+is blue (`goal_color:=4`); use the same initial value in the tracker launch.
 
-To launch just this package after sourcing the workspace:
+**RB** enters nominal stand and disarms; **A** arms from stand once the planner
+is available. **q** or **Ctrl-C** closes the console and stops the planner.
+Planner logs go to the ROS launch log directory while the console is visible.
 
-```bash
-ros2 launch sledgehammer planner.launch.py env:=sim goal_color:=4
-ros2 run sledgehammer repose_console.py
-```
+Onboard: source `setup.sh onboard`, then use `env:=real`; targets are still entered
+in the same SSH/tmux pane. Without a TTY, the launch starts only the planner.
+Set `console:=false` to explicitly disable the console. A separate console remains
+available as `ros2 run sledgehammer repose_console.py`.
 
-The workspace's supervised tracker wrapper stops its launch if this planner
-disappears. The planner idles when controller status or low-state becomes stale.
+The C++ tracker exits if this planner stops publishing status for one second;
+its ROS launch then stops the encoder and bridge. The planner idles when
+controller status or low-state becomes stale. Restart the tracker launch after
+restarting the planner.
+
+Both planner camera consumers reconnect after a two-second connection/frame
+timeout, including an incomplete frame. Ctrl-C interrupts socket and retry
+waits even when the camera keeps its connection open without sending.
 
 ## data
 

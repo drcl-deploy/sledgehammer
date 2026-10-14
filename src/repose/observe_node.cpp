@@ -7,9 +7,6 @@
  * engaged so the offboard labeler cannot count unsafe frames.
  */
 
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <unistd.h>
 #include <yaml-cpp/yaml.h>
 
 #include <algorithm>
@@ -35,6 +32,7 @@
 #include <cpp_control/msg/controller_status.hpp>
 #include <cpp_control/msg/cube_observation.hpp>
 #include <unitree_hg/msg/low_state.hpp>
+#include <vision_encoders/camera_tcp.hpp>
 #include <vision_encoders/frame_wire.hpp>
 
 #include "sledgehammer/repose/data_path.hpp"
@@ -126,8 +124,6 @@ class ReposeObserveNode final : public rclcpp::Node {
 
   ~ReposeObserveNode() override {
     running_.store(false);
-    const int fd = socket_fd_.load();
-    if (fd >= 0) ::shutdown(fd, SHUT_RDWR);
     if (tcp_thread_.joinable()) tcp_thread_.join();
   }
 
@@ -189,49 +185,27 @@ class ReposeObserveNode final : public rclcpp::Node {
     last_state_ = this->now();
   }
 
-  static bool recv_exact(int fd, uint8_t* data, size_t size) {
-    size_t received = 0;
-    while (received < size) {
-      const ssize_t n = ::recv(fd, data + received, size - received, 0);
-      if (n <= 0) return false;
-      received += static_cast<size_t>(n);
-    }
-    return true;
-  }
-
   void tcp_loop() {
     std::vector<uint8_t> payload;
     while (running_.load()) {
-      const int fd = ::socket(AF_INET, SOCK_STREAM, 0);
-      socket_fd_.store(fd);
-      sockaddr_in address{};
-      address.sin_family = AF_INET;
-      address.sin_port = htons(camera_port_);
-      ::inet_pton(AF_INET, camera_ip_.c_str(), &address.sin_addr);
-      if (fd < 0 ||
-          ::connect(fd, reinterpret_cast<sockaddr*>(&address),
-                    sizeof(address)) < 0) {
-        if (fd >= 0) ::close(fd);
-        socket_fd_.store(-1);
+      const int fd = vision_encoders::camera_tcp::connect(camera_ip_, camera_port_, running_);
+      if (fd < 0) {
         if (!running_.load()) break;
         RCLCPP_WARN(this->get_logger(),
                     "the planner observe: cannot reach %s:%u, retrying",
                     camera_ip_.c_str(), camera_port_);
-        std::this_thread::sleep_for(std::chrono::seconds(2));
+        vision_encoders::camera_tcp::retry_delay(running_);
         continue;
       }
       RCLCPP_INFO(this->get_logger(), "the planner observe: camera connected");
       while (running_.load()) {
-        uint32_t size = 0;
-        if (!recv_exact(fd, reinterpret_cast<uint8_t*>(&size), sizeof(size)))
-          break;
-        if (size == 0 || size > 16 * 1024 * 1024) break;
-        payload.resize(size);
-        if (!recv_exact(fd, payload.data(), payload.size())) break;
+        if (!vision_encoders::camera_tcp::read_frame(fd, payload, running_)) break;
         process(payload);
       }
       ::close(fd);
-      socket_fd_.store(-1);
+      if (running_.load())
+        RCLCPP_WARN(this->get_logger(),
+                    "the planner observe: camera disconnected or frame timed out; reconnecting");
     }
   }
 
@@ -388,7 +362,6 @@ class ReposeObserveNode final : public rclcpp::Node {
   msg::ControllerStatus controller_;
 
   std::atomic<bool> running_{false};
-  std::atomic<int> socket_fd_{-1};
   std::thread tcp_thread_;
   uint64_t sequence_ = 0;
   uint64_t click_sequence_ = 0;

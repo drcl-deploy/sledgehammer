@@ -24,31 +24,11 @@ fi
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 : "${VIBE_WORKSPACE_ROOT:?Source setup_local.sh or setup.sh first}"
 repository_root="${VIBE_WORKSPACE_ROOT}"
-workspace_setup="${repository_root}/cyclonedds_ws/install/setup.bash"
-
-ros_setup=""
-if [[ -n "${ROS_DISTRO:-}" && -f "/opt/ros/${ROS_DISTRO}/setup.bash" ]]; then
-  ros_setup="/opt/ros/${ROS_DISTRO}/setup.bash"
-elif [[ -f /opt/ros/humble/setup.bash ]]; then
-  ros_setup=/opt/ros/humble/setup.bash
-elif [[ -f /opt/ros/foxy/setup.bash ]]; then
-  ros_setup=/opt/ros/foxy/setup.bash
-fi
-if [[ -z "${ros_setup}" ]]; then
-  echo "replay_observe: no supported ROS setup found under /opt/ros" >&2
-  exit 1
-fi
-if [[ ! -f "${workspace_setup}" ]]; then
-  echo "replay_observe: workspace is not built: ${workspace_setup}" >&2
-  exit 1
-fi
-
-# ROS-generated setup files are not nounset-safe.
-set +u
-source "${ros_setup}"
-source "${workspace_setup}"
-set -u
+cpp_control_prefix="$(ros2 pkg prefix cpp_control)"
+source "$cpp_control_prefix/share/cpp_control/scripts/ros_environment.sh"
+cpp_control_source_ros "$repository_root/cyclonedds_ws"
+cpp_control_check_python cv2 numpy rclpy rosbag2_py PyQt5.QtCore
 
 export REPOSE_OBSERVE_BAG_DIR="${REPOSE_OBSERVE_BAG_DIR:-${repository_root}/bags/repose_observe}"
 export QT_IM_MODULE="${VIBE_QT_IM_MODULE:-compose}"
-exec python3 "${script_dir}/repose_replay_observe.py" "$@"
+exec /usr/bin/python3 "${script_dir}/repose_replay_observe.py" "$@"
