@@ -63,21 +63,11 @@ fi
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 : "${VIBE_WORKSPACE_ROOT:?Source setup_local.sh or setup.sh first}"
 repository_root="${VIBE_WORKSPACE_ROOT}"
-workspace_setup="${repository_root}/cyclonedds_ws/install/setup.bash"
-
-if [[ ! -f /opt/ros/humble/setup.bash ]]; then
-  echo "stream_observe: /opt/ros/humble/setup.bash not found" >&2
-  exit 1
-fi
-if [[ ! -f "${workspace_setup}" ]]; then
-  echo "stream_observe: workspace is not built: ${workspace_setup}" >&2
-  exit 1
-fi
-
-set +u
-source /opt/ros/humble/setup.bash
-source "${workspace_setup}"
-set -u
+cpp_control_prefix="$(ros2 pkg prefix cpp_control)"
+source "$cpp_control_prefix/share/cpp_control/scripts/ros_environment.sh"
+cpp_control_source_ros "$repository_root/cyclonedds_ws"
+cpp_control_check_python cv2 numpy rclpy cpp_control.msg
+if [[ "$record" == true ]]; then cpp_control_check_python rosbag2_py; fi
 
 export ROS_DOMAIN_ID="${BRIDGE_ROS_DOMAIN_ID:-71}"
 unset CYCLONEDDS_URI
@@ -108,7 +98,7 @@ ros2 run cdr_tcp_bridge bridge_client.sh \
 children+=("$!")
 
 echo "stream_observe: starting RGB + depth calibration viewer"
-ros2 run sledgehammer repose_observe_viewer.py \
+/usr/bin/python3 "${script_dir}/repose_observe_viewer.py" \
   --samples "${samples}" --negative-samples "${negative_samples}" &
 children+=("$!")
 

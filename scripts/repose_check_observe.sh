@@ -40,27 +40,12 @@ script_path="$(readlink -f -- "${BASH_SOURCE[0]}")"
 script_dir="$(cd -- "$(dirname -- "${script_path}")" && pwd)"
 : "${VIBE_WORKSPACE_ROOT:?Source setup_local.sh or setup.sh first}"
 repository_root="${VIBE_WORKSPACE_ROOT}"
-workspace_setup="${repository_root}/cyclonedds_ws/install/setup.bash"
+cpp_control_prefix="$(ros2 pkg prefix cpp_control)"
+source "$cpp_control_prefix/share/cpp_control/scripts/ros_environment.sh"
+cpp_control_source_ros "$repository_root/cyclonedds_ws"
+cpp_control_check_python cv2 numpy rclpy cpp_control.msg
+if [[ "$record" == true ]]; then cpp_control_check_python rosbag2_py; fi
 
-if [[ ! -f "${workspace_setup}" ]]; then
-  echo "check_observe: workspace is not built: ${workspace_setup}" >&2
-  exit 1
-fi
-
-ros_setup=/opt/ros/humble/setup.bash
-[[ -f "${ros_setup}" ]] || ros_setup=/opt/ros/foxy/setup.bash
-if [[ ! -f "${ros_setup}" ]]; then
-  echo "check_observe: no supported ROS setup under /opt/ros" >&2
-  exit 1
-fi
-
-set +u
-source "${ros_setup}"
-source "${workspace_setup}"
-set -u
-
-# The same isolated offboard domain the calibration viewer uses: telemetry only,
-# and nothing this process publishes can reach the robot.
 export ROS_DOMAIN_ID="${BRIDGE_ROS_DOMAIN_ID:-71}"
 unset CYCLONEDDS_URI
 export ROS_LOCALHOST_ONLY=1
@@ -82,7 +67,7 @@ echo "check_observe: server=${VIBE_BRIDGE_ADDRESS}:5556 domain=${ROS_DOMAIN_ID}"
 ros2 run cdr_tcp_bridge bridge_client.sh -p config_path:="${bridge_config}" &
 children+=("$!")
 
-ros2 run sledgehammer repose_check_observe.py &
+/usr/bin/python3 "${script_dir}/repose_check_observe.py" &
 children+=("$!")
 
 if [[ "${record}" == true ]]; then
