@@ -43,7 +43,7 @@ repository_root="${VIBE_WORKSPACE_ROOT}"
 cpp_control_prefix="$(ros2 pkg prefix cpp_control)"
 source "$cpp_control_prefix/share/cpp_control/scripts/ros_environment.sh"
 cpp_control_source_ros "$repository_root/cyclonedds_ws"
-cpp_control_check_python cv2 numpy rclpy cpp_control.msg
+cpp_control_check_python cv2 numpy rclpy cpp_control.msg sledgehammer.msg
 if [[ "$record" == true ]]; then cpp_control_check_python rosbag2_py; fi
 
 export ROS_DOMAIN_ID="${BRIDGE_ROS_DOMAIN_ID:-71}"
