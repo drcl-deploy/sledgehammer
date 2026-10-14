@@ -36,6 +36,10 @@ its ROS launch then stops the encoder and bridge. The planner idles when
 controller status or low-state becomes stale. Restart the tracker launch after
 restarting the planner.
 
+Both planner camera consumers reconnect after a two-second connection/frame
+timeout, including an incomplete frame. Ctrl-C interrupts socket and retry
+waits even when the camera keeps its connection open without sending.
+
 ## data
 
 | file | purpose |
