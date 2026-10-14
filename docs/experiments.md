@@ -1,7 +1,7 @@
 # The planner experiment workflow
 
 A closed-loop Repose run is a Vibe run with one extra process and one extra
-terminal. Everything in [docs/vibe/experiments.md](../../vibe/experiments.md)
+terminal. Everything in [vibe_ws usage](https://github.com/drcl-deploy/vibe_ws#usage)
 applies unchanged — same setup files, same camera source, same viewers, same
 bags. This page is only the delta. Algorithm and design:
 [planner.md](planner.md). For observation-only RGB-D collection with The controller

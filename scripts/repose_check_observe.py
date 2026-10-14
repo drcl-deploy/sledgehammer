@@ -11,7 +11,7 @@
 
 import argparse
 
-from cpp_control.msg import CubeObservation
+from sledgehammer.msg import CubeObservation
 import numpy as np
 import rclpy
 from rclpy.executors import ExternalShutdownException

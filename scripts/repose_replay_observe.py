@@ -12,7 +12,7 @@ import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets
 from rclpy.serialization import deserialize_message
 import rosbag2_py
-from rosidl_runtime_py.utilities import get_message
+from repose_bag_types import bag_message
 import yaml
 
 # Importing the pip OpenCV wheel can point Qt at OpenCV's private xcb plugin.
@@ -133,7 +133,7 @@ class CalibrationBag:
                 'not a clicked The planner observation bag; missing topics: ' +
                 ', '.join(missing))
         classes = {
-            topic: get_message(topic_types[topic]) for topic in REQUIRED_TOPICS
+            topic: bag_message(topic_types[topic]) for topic in REQUIRED_TOPICS
         }
         states = []
         by_stamp = {topic: {} for topic in REQUIRED_TOPICS[1:]}

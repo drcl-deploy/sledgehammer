@@ -7,7 +7,7 @@ from pathlib import Path
 
 from rclpy.serialization import deserialize_message
 import rosbag2_py
-from rosidl_runtime_py.utilities import get_message
+from repose_bag_types import bag_message
 import yaml
 
 
@@ -71,7 +71,7 @@ def validate(path):
         print('missing topics: ' + ', '.join(missing_topics))
         return 1
 
-    classes = {topic: get_message(topic_types[topic]) for topic in required}
+    classes = {topic: bag_message(topic_types[topic]) for topic in required}
     image_stamps = {topic: set() for topic in image_topics}
     observations = {}
     captured = []
