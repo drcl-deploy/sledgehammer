@@ -35,7 +35,7 @@
 #include <cmath>
 #include <cpp_control/msg/controller_status.hpp>
 #include <cpp_control/msg/motion_reference.hpp>
-#include <cpp_control/msg/planner_status.hpp>
+#include <sledgehammer/msg/planner_status.hpp>
 #include <cstring>
 #include <memory>
 #include <mutex>
@@ -43,6 +43,7 @@
 #include <opencv2/imgproc.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/int32.hpp>
+#include <std_msgs/msg/empty.hpp>
 #include <string>
 #include <thread>
 #include <unitree_hg/msg/low_state.hpp>
@@ -119,7 +120,9 @@ class ReposeNode : public rclcpp::Node {
 
     reference_pub_ = this->create_publisher<msg::MotionReference>(
         this->declare_parameter("reference_topic", "/tracker/reference"), 10);
-    status_pub_ = this->create_publisher<msg::PlannerStatus>(
+    heartbeat_pub_ = this->create_publisher<std_msgs::msg::Empty>(
+        "/vibe/planner/heartbeat", 10);
+    status_pub_ = this->create_publisher<sledgehammer::msg::PlannerStatus>(
         this->declare_parameter("planner_status_topic", "/vibe/planner/status"),
         10);
     controller_sub_ = this->create_subscription<msg::ControllerStatus>(
@@ -995,7 +998,7 @@ class ReposeNode : public rclcpp::Node {
   /// the candidate plan, so a once-per-second status froze the console on stale
   /// numbers and gave a bag one sample per act to reason about.
   void publish_status() {
-    msg::PlannerStatus m;
+    sledgehammer::msg::PlannerStatus m;
     m.mode = static_cast<uint8_t>(plan_.mode);
     m.label = plan_.label;
     m.cost = plan_.cost;
@@ -1065,6 +1068,8 @@ class ReposeNode : public rclcpp::Node {
     m.version = version_;
     m.observe_ms = observe_ms_;
     status_pub_->publish(m);
+    // Same tick as status: a stalled planner must also stop its heartbeat.
+    heartbeat_pub_->publish(std_msgs::msg::Empty{});
   }
 
   // config + artifacts
@@ -1141,7 +1146,8 @@ class ReposeNode : public rclcpp::Node {
   float observe_ms_ = 0.f;
 
   rclcpp::Publisher<msg::MotionReference>::SharedPtr reference_pub_;
-  rclcpp::Publisher<msg::PlannerStatus>::SharedPtr status_pub_;
+  rclcpp::Publisher<sledgehammer::msg::PlannerStatus>::SharedPtr status_pub_;
+  rclcpp::Publisher<std_msgs::msg::Empty>::SharedPtr heartbeat_pub_;
   rclcpp::Subscription<msg::ControllerStatus>::SharedPtr controller_sub_;
   rclcpp::Subscription<unitree_hg::msg::LowState>::SharedPtr lowstate_sub_;
   rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr goal_sub_;

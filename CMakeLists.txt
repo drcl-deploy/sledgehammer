@@ -4,47 +4,66 @@ project(sledgehammer)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(ament_cmake REQUIRED)
-find_package(ament_index_cpp REQUIRED)
-find_package(cpp_control REQUIRED)
-find_package(rclcpp REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 find_package(std_msgs REQUIRED)
-find_package(sensor_msgs REQUIRED)
-find_package(unitree_hg REQUIRED)
-find_package(vision_encoders REQUIRED)
-find_package(OpenCV REQUIRED)
-find_package(yaml-cpp REQUIRED)
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/PlannerStatus.msg"
+  "msg/CubeObservation.msg"
+  "msg/CalibrationState.msg"
+  DEPENDENCIES std_msgs)
+ament_export_dependencies(rosidl_default_runtime)
 
-add_library(sledgehammer_core STATIC
-  src/repose/cfg.cpp src/repose/sight.cpp src/repose/clips.cpp
-  src/repose/approach.cpp src/repose/table.cpp src/repose/writer.cpp)
-target_include_directories(sledgehammer_core PUBLIC include ${OpenCV_INCLUDE_DIRS})
-target_link_libraries(sledgehammer_core
-  cpp_control::cpp_control_deploy cpp_control::cpp_control_vibe_contract
-  ${OpenCV_LIBS} yaml-cpp)
+option(SLEDGEHAMMER_BUILD_RUNTIME "Build planner nodes (OFF for offboard interfaces/tools)" ON)
+if(SLEDGEHAMMER_BUILD_RUNTIME)
+  find_package(ament_index_cpp REQUIRED)
+  find_package(cpp_control REQUIRED)
+  find_package(rclcpp REQUIRED)
+  find_package(sensor_msgs REQUIRED)
+  find_package(unitree_hg REQUIRED)
+  find_package(vision_encoders REQUIRED)
+  find_package(OpenCV REQUIRED)
+  find_package(yaml-cpp REQUIRED)
 
-add_executable(repose_planner_selftest tests/repose_planner_selftest.cpp)
-target_link_libraries(repose_planner_selftest sledgehammer_core)
+  add_library(sledgehammer_core STATIC
+    src/repose/cfg.cpp src/repose/sight.cpp src/repose/clips.cpp
+    src/repose/approach.cpp src/repose/table.cpp src/repose/writer.cpp)
+  target_include_directories(sledgehammer_core PUBLIC include ${OpenCV_INCLUDE_DIRS})
+  target_link_libraries(sledgehammer_core
+    cpp_control::cpp_control_deploy cpp_control::cpp_control_vibe_contract
+    ${OpenCV_LIBS} yaml-cpp)
 
-add_executable(g1_repose_planner_node src/repose/node.cpp)
-add_executable(g1_repose_planner_observe_node src/repose/observe_node.cpp)
-foreach(target g1_repose_planner_node g1_repose_planner_observe_node)
-  target_link_libraries(${target} sledgehammer_core)
-  target_include_directories(${target} PRIVATE ${vision_encoders_INCLUDE_DIRS})
-  ament_target_dependencies(${target} ament_index_cpp rclcpp std_msgs sensor_msgs
-    unitree_hg vision_encoders cpp_control)
-endforeach()
+  add_executable(repose_planner_selftest tests/repose_planner_selftest.cpp)
+  target_link_libraries(repose_planner_selftest sledgehammer_core)
 
-install(TARGETS repose_planner_selftest g1_repose_planner_node
-  g1_repose_planner_observe_node DESTINATION lib/${PROJECT_NAME})
+  add_executable(g1_repose_planner_node src/repose/node.cpp)
+  add_executable(g1_repose_planner_observe_node src/repose/observe_node.cpp)
+  foreach(target g1_repose_planner_node g1_repose_planner_observe_node)
+    target_link_libraries(${target} sledgehammer_core)
+    target_include_directories(${target} PRIVATE ${vision_encoders_INCLUDE_DIRS})
+    ament_target_dependencies(${target} ament_index_cpp rclcpp std_msgs sensor_msgs
+      unitree_hg vision_encoders cpp_control)
+    if(COMMAND rosidl_get_typesupport_target)
+      rosidl_get_typesupport_target(cpp_typesupport_target
+        ${PROJECT_NAME} "rosidl_typesupport_cpp")
+      target_link_libraries(${target} "${cpp_typesupport_target}")
+    else()
+      rosidl_target_interfaces(${target} ${PROJECT_NAME} "rosidl_typesupport_cpp")
+    endif()
+  endforeach()
+
+  install(TARGETS repose_planner_selftest g1_repose_planner_node
+    g1_repose_planner_observe_node DESTINATION lib/${PROJECT_NAME})
+endif()  # SLEDGEHAMMER_BUILD_RUNTIME
+
 install(FILES data.lock.json DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY launch config DESTINATION share/${PROJECT_NAME})
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/data")
+if(SLEDGEHAMMER_BUILD_RUNTIME AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/data")
   install(DIRECTORY data DESTINATION share/${PROJECT_NAME})
 endif()
 file(GLOB planner_scripts scripts/*.py scripts/*.sh)
 install(PROGRAMS ${planner_scripts} DESTINATION lib/${PROJECT_NAME})
 
-if(BUILD_TESTING)
+if(BUILD_TESTING AND SLEDGEHAMMER_BUILD_RUNTIME)
   enable_testing()
   add_test(NAME repose_planner_selftest COMMAND repose_planner_selftest
     --config ${CMAKE_CURRENT_SOURCE_DIR}/config/repose_planner/g1_sim.yaml --check-preset-parity)

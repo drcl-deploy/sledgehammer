@@ -27,7 +27,8 @@ from rclpy.utilities import remove_ros_args
 from rclpy.qos import QoSProfile, ReliabilityPolicy
 from std_msgs.msg import Int32
 
-from cpp_control.msg import ControllerStatus, PlannerStatus
+from cpp_control.msg import ControllerStatus
+from sledgehammer.msg import PlannerStatus
 
 NAMES = ("red", "orange", "green", "yellow", "blue", "pink")
 KEYS = "rogybp"
